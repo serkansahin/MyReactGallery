@@ -1,68 +1,92 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# My React FlickR Gallery
 
-## Available Scripts
+This is a simple app that let you search pictures samples (limited to 20 images per search) from FlickR.
 
-In the project directory, you can run:
+Well..the app is ugly but at least it works 0:).
 
-### `yarn start`
+Used technologies:
+- [ReactJS](https://fr.reactjs.org/)
+- [React Router](https://github.com/ReactTraining/react-router)
+- [Flickr SDK](https://github.com/flickr/flickr-sdk) for Javascript
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Preview
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+![](./doc/reactgal.gif)
 
-### `yarn test`
+## Setup the app
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can either bootstrap this application locally if you have a NodeJS setup already installed, anyway I strongly advise you to follow the steps below.
 
-### `yarn build`
+### Prerequesites
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Docker CE (at least 17.04.0+) & Docker-compose
+- An API KEY to FLICKR's REST API
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Build the container
+With Docker only:
+```bash
+$>docker build -t myreactgallery .
+... lot of magical build blabla
+Successfully built 5089a0ee32579
+Successfully tagged myreactgallery:latest
+$>
+```
+With Docker Compose:
+```bash
+$>docker-compose build
+... lot of magical build blabla
+Successfully built 5005a7ee2254
+Successfully tagged myreactgallery_app:latest
+$>
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Start the App
+With Docker only:
+```bash
+$>docker run -it -p 3001:3000 -e REACT_APP_FLICKR_API_KEY=<YOU FLICKR API KEY> myreactgallery
+```
+The above command will bind your local 3001 port to the container's 3000 port where the app is listening.
+With Docker Compose, you must edit first the ```docker-compose.yml``` file at the root folder by modifiying the placeholder by your FLICKR API KEY.
+```yaml
+version: '3.2'
 
-### `yarn eject`
+services:
+  app:
+    container_name: myreactgallery
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3000'
+    environment:
+      - REACT_APP_FLICKR_API_KEY=placeholder <= EDIT HERE!
+```
+Then...
+```bash
+$>docker-compose up
+Recreating myreactgallery ... done
+Attaching to myreactgallery
+myreactgallery | yarn run v1.21.1
+myreactgallery | $ react-scripts start
+myreactgallery | ℹ ｢wds｣: Project is running at http://172.18.0.2/
+myreactgallery | ℹ ｢wds｣: webpack output is served from /
+myreactgallery | ℹ ｢wds｣: Content not from webpack is served from /opt/public
+myreactgallery | ℹ ｢wds｣: 404s will fallback to /index.html
+myreactgallery | Starting the development server...
+myreactgallery |
+myreactgallery | Compiled successfully!
+myreactgallery |
+myreactgallery | You can now view myreactgallery in the browser.
+myreactgallery |
+myreactgallery |   Local:            http://localhost:3000/
+myreactgallery |   On Your Network:  http://172.18.0.2:3000/
+myreactgallery |
+myreactgallery | Note that the development build is not optimized.
+myreactgallery | To create a production build, use yarn build.
+myreactgallery |
+TADAAA!!
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Play with it!
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Now open your favorite browser and access this address: ```http://localhost:3001```.

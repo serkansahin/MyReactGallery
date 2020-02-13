@@ -1,0 +1,15 @@
+div.imageGallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  width: 360px;
+  float:left;
+}
+
+div.imageGallery:hover {
+  border: 1px solid #777;
+}
+
+div.imageGallery img {
+  width: 100%;
+  height: auto;
+}

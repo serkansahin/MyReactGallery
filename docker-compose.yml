@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+  app:
+    container_name: myreactgallery
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3000'
+    environment:
+      - REACT_APP_FLICKR_API_KEY=placeholder
